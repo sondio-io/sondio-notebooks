@@ -34,10 +34,13 @@ def _code(source: str) -> nbf.NotebookNode:
 SETUP_CELL = (
     "%pip install --quiet 'sondio[geo]>=0.1.2,<0.2' matplotlib\n"
     "\n"
+    "# sondio >= 0.1.2 auto-resolves your key from (in order):\n"
+    "#   1. Colab Secrets — add a secret named SONDIO_API_KEY (\U0001f511 sidebar, toggle Notebook access)\n"
+    "#   2. Kaggle Secrets — add a secret named SONDIO_API_KEY (Add-ons → Secrets)\n"
+    "#   3. SONDIO_API_KEY environment variable (Deepnote / Hex / SageMaker / local)\n"
+    "#   4. ~/.sondio/config (local CLI users)\n"
+    "# Grab a free key at https://sondio.io/developers\n"
     "import sondio\n"
-    "# sondio >= 0.1.2 reads your key from Colab Secrets (\U0001f511 sidebar),\n"
-    "# Kaggle Secrets, SONDIO_API_KEY env var, or ~/.sondio/config — in that\n"
-    "# order. Set whichever fits your environment.\n"
     "print(f\"sondio {sondio.__version__}\")"
 )
 
