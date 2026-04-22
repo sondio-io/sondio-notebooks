@@ -15,6 +15,13 @@ and **Runtime → Run all**.
 
 ## Notebooks
 
+### Energy
+
+| Notebook | Open in Colab |
+|----------|---------------|
+| [Oil & gas production decline curve](energy/oilgas-production-trends.ipynb) — per-well monthly oil/gas/water over 15 years | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sondio-io/sondio-notebooks/blob/main/energy/oilgas-production-trends.ipynb) |
+| [US wind fleet density](energy/wind-turbine-density.ipynb) — USWTDB installed capacity by state + growth in turbine size | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sondio-io/sondio-notebooks/blob/main/energy/wind-turbine-density.ipynb) |
+
 ### Environmental
 
 | Notebook | Open in Colab |
@@ -28,6 +35,7 @@ and **Runtime → Run all**.
 |----------|---------------|
 | [Earthquake + well proximity](cross-vertical/earthquake-well-proximity.ipynb) — TX wells within 20 miles of the strongest recent M3+ quake | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sondio-io/sondio-notebooks/blob/main/cross-vertical/earthquake-well-proximity.ipynb) |
 | [Pipeline safety explorer](cross-vertical/pipeline-safety-explorer.ipynb) — PHMSA incidents by state, drill into Texas | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sondio-io/sondio-notebooks/blob/main/cross-vertical/pipeline-safety-explorer.ipynb) |
+| [SVI vs pipeline incidents](cross-vertical/svi-pipeline-incidents.ipynb) — state-level CDC SVI rollup compared to PHMSA incident rates | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sondio-io/sondio-notebooks/blob/main/cross-vertical/svi-pipeline-incidents.ipynb) |
 
 ## Authoring
 
