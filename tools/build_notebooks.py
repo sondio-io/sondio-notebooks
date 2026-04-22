@@ -32,18 +32,12 @@ def _code(source: str) -> nbf.NotebookNode:
 
 
 SETUP_CELL = (
-    "%pip install --quiet 'sondio[geo]>=0.1,<0.2' matplotlib\n"
+    "%pip install --quiet 'sondio[geo]>=0.1.2,<0.2' matplotlib\n"
     "\n"
-    "import os\n"
     "import sondio\n"
-    "\n"
-    "# Colab: stores SONDIO_API_KEY in the Secrets panel (\U0001f511 sidebar).\n"
-    "# Local: reads the env var or ~/.sondio/config.\n"
-    "try:\n"
-    "    from google.colab import userdata\n"
-    "    sondio.api_key = userdata.get(\"SONDIO_API_KEY\")\n"
-    "except (ImportError, Exception):\n"
-    "    sondio.api_key = os.environ.get(\"SONDIO_API_KEY\", \"sk_sondio_your_key_here\")\n"
+    "# sondio >= 0.1.2 reads your key from Colab Secrets (\U0001f511 sidebar),\n"
+    "# Kaggle Secrets, SONDIO_API_KEY env var, or ~/.sondio/config — in that\n"
+    "# order. Set whichever fits your environment.\n"
     "print(f\"sondio {sondio.__version__}\")"
 )
 

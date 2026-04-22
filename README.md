@@ -6,12 +6,33 @@ Each notebook is a self-contained query-and-visualize example that uses the
 
 ## Run in Colab
 
-Every notebook runs unmodified in Google Colab — click the badge next to the
-one you want, set `SONDIO_API_KEY` in the Colab secrets panel (🔑 sidebar),
-and **Runtime → Run all**.
+Every notebook runs unmodified in Google Colab:
+
+1. Click the **Open in Colab** badge next to the notebook you want.
+2. In Colab, open the 🔑 **Secrets** panel in the left sidebar.
+3. Add a secret named `SONDIO_API_KEY` (toggle **Notebook access** on).
+4. **Runtime → Run all**.
+
+The setup cell installs `sondio` from PyPI and reads the key automatically.
 
 > You'll need a free Sondio API key. Grab one at
 > [sondio.io/developers](https://sondio.io/developers).
+
+## Other platforms
+
+The SDK's key resolution chain is: explicit `sondio.api_key = "..."` →
+Colab Secrets → Kaggle Secrets → `SONDIO_API_KEY` environment variable →
+`~/.sondio/config`. Pick whichever fits:
+
+| Platform | How to provide the key |
+|----------|------------------------|
+| **Kaggle Kernels** | Add-ons → Secrets → `SONDIO_API_KEY` (toggle access) |
+| **Deepnote**, **Hex**, **SageMaker Studio Lab**, **Paperspace**, **Noteable** | Use the platform's environment-variable / secret integration to set `SONDIO_API_KEY` |
+| **Local Jupyter / VS Code** | Set `SONDIO_API_KEY` in your shell, or create `~/.sondio/config` with `[default]\napi_key = sk_sondio_...` |
+| **Binder** | No built-in secrets — edit the first cell to inject the key manually (e.g. via `getpass`) |
+
+In every case the notebook itself is unchanged; only where the key comes
+from differs.
 
 ## Notebooks
 
