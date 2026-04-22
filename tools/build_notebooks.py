@@ -32,8 +32,7 @@ def _code(source: str) -> nbf.NotebookNode:
 
 
 SETUP_CELL = (
-    "# First run only: install the SDK.\n"
-    "# %pip install 'sondio[geo]>=0.1,<0.2' matplotlib\n"
+    "%pip install --quiet 'sondio[geo]>=0.1,<0.2' matplotlib\n"
     "\n"
     "import os\n"
     "import sondio\n"
