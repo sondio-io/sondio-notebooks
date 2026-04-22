@@ -37,7 +37,13 @@ SETUP_CELL = (
     "import os\n"
     "import sondio\n"
     "\n"
-    "sondio.api_key = os.environ.get(\"SONDIO_API_KEY\", \"sk_sondio_your_key_here\")\n"
+    "# Colab: stores SONDIO_API_KEY in the Secrets panel (\U0001f511 sidebar).\n"
+    "# Local: reads the env var or ~/.sondio/config.\n"
+    "try:\n"
+    "    from google.colab import userdata\n"
+    "    sondio.api_key = userdata.get(\"SONDIO_API_KEY\")\n"
+    "except (ImportError, Exception):\n"
+    "    sondio.api_key = os.environ.get(\"SONDIO_API_KEY\", \"sk_sondio_your_key_here\")\n"
     "print(f\"sondio {sondio.__version__}\")"
 )
 
