@@ -26,6 +26,7 @@ and **Runtime → Run all**.
 
 | Notebook | Open in Colab |
 |----------|---------------|
+| [Earthquake + well proximity](cross-vertical/earthquake-well-proximity.ipynb) — TX wells within 20 miles of the strongest recent M3+ quake | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sondio-io/sondio-notebooks/blob/main/cross-vertical/earthquake-well-proximity.ipynb) |
 | [Pipeline safety explorer](cross-vertical/pipeline-safety-explorer.ipynb) — PHMSA incidents by state, drill into Texas | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sondio-io/sondio-notebooks/blob/main/cross-vertical/pipeline-safety-explorer.ipynb) |
 
 ## Authoring

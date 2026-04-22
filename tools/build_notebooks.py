@@ -43,6 +43,76 @@ SETUP_CELL = (
 )
 
 
+def earthquake_well_proximity() -> nbf.NotebookNode:
+    cells = [
+        _md(
+            "# Earthquakes near oil & gas wells (Texas)\n"
+            "\n"
+            "Cross-vertical starter: find oil & gas wells within 20 miles of the "
+            "largest recent magnitude 3.0+ earthquake in Texas. Uses a pure-pandas "
+            "haversine filter so it runs without any geospatial deps."
+        ),
+        _code(SETUP_CELL),
+        _code(
+            "# Strongest recent Texas quake — pull the first page (ordered newest first).\n"
+            "quakes = sondio.earthquakes(state=\"TX\", min_mag=3.0, days=365, limit=200, page=1)\n"
+            "print(f\"{len(quakes)} earthquakes\")\n"
+            "quakes.sort_values(\"magnitude\", ascending=False).head()"
+        ),
+        _code(
+            "# Anchor on the largest quake.\n"
+            "focal = quakes.sort_values(\"magnitude\", ascending=False).iloc[0]\n"
+            "lat0, lon0 = float(focal[\"latitude\"]), float(focal[\"longitude\"])\n"
+            "print(f\"Focal quake: M{focal['magnitude']} on {focal['event_time']} at ({lat0:.3f}, {lon0:.3f})\")"
+        ),
+        _code(
+            "# Pull TX wells, then filter by true distance with haversine.\n"
+            "import numpy as np\n"
+            "\n"
+            "wells = sondio.oilgas.wells(country=\"US\", state=\"TX\", limit=500, all_pages=True)\n"
+            "wells = wells.dropna(subset=[\"latitude\", \"longitude\"]).copy()\n"
+            "print(f\"{len(wells)} TX wells\")"
+        ),
+        _code(
+            "def haversine_miles(lat1, lon1, lat2, lon2):\n"
+            "    R = 3958.8\n"
+            "    phi1, phi2 = np.radians(lat1), np.radians(lat2)\n"
+            "    dphi = np.radians(lat2 - lat1)\n"
+            "    dlam = np.radians(lon2 - lon1)\n"
+            "    a = np.sin(dphi/2)**2 + np.cos(phi1) * np.cos(phi2) * np.sin(dlam/2)**2\n"
+            "    return 2 * R * np.arcsin(np.sqrt(a))\n"
+            "\n"
+            "wells[\"miles_to_focal\"] = haversine_miles(\n"
+            "    lat0, lon0, wells[\"latitude\"].values, wells[\"longitude\"].values\n"
+            ")\n"
+            "near = wells.loc[wells[\"miles_to_focal\"] <= 20].sort_values(\"miles_to_focal\")\n"
+            "print(f\"{len(near)} wells within 20 miles\")\n"
+            "near[[\"well_name\", \"operator_name\", \"locality\", \"subdivision\", \"miles_to_focal\"]].head(15)"
+        ),
+        _code(
+            "# Matplotlib scatter — no basemap deps.\n"
+            "import matplotlib.pyplot as plt\n"
+            "\n"
+            "fig, ax = plt.subplots(figsize=(8, 7))\n"
+            "ax.scatter(wells[\"longitude\"], wells[\"latitude\"], s=4, c=\"#aaa\", label=\"TX wells\", alpha=0.5)\n"
+            "ax.scatter(near[\"longitude\"], near[\"latitude\"], s=18, c=\"#c44\", label=\"wells < 20 mi\")\n"
+            "ax.scatter([lon0], [lat0], s=180, marker=\"*\", c=\"#222\", label=f\"M{focal['magnitude']} quake\")\n"
+            "ax.set_xlabel(\"longitude\"); ax.set_ylabel(\"latitude\")\n"
+            "ax.set_title(f\"Texas wells near focal earthquake ({focal['event_time']})\")\n"
+            "ax.legend(loc=\"upper right\"); ax.grid(alpha=0.2)\n"
+            "plt.show()"
+        ),
+        _md(
+            "## Next steps\n"
+            "- Widen the window with `days=365 * 3` or drop the state filter for CONUS-wide scope.\n"
+            "- Swap `state=\"TX\"` for another seismic region (OK, CA).\n"
+            "- Cross with `sondio.us.phmsa.pipeline_incidents(state=\"TX\")` to flag pipelines near the same quake.\n"
+            "- Related: [pipeline-safety-explorer](pipeline-safety-explorer.ipynb)."
+        ),
+    ]
+    return _nb(cells)
+
+
 def ghg_facility_heatmap() -> nbf.NotebookNode:
     cells = [
         _md(
@@ -287,6 +357,7 @@ def getting_started() -> nbf.NotebookNode:
 
 def main() -> None:
     outputs = {
+        REPO_ROOT / "cross-vertical" / "earthquake-well-proximity.ipynb": earthquake_well_proximity(),
         REPO_ROOT / "env" / "ghg-facility-heatmap.ipynb": ghg_facility_heatmap(),
         REPO_ROOT / "cross-vertical" / "pipeline-safety-explorer.ipynb": pipeline_safety_explorer(),
         REPO_ROOT / "env" / "aquifer-exemptions-near-population.ipynb": aquifer_exemptions_near_population(),
